@@ -1,6 +1,6 @@
 (***************************************************************************)
 (*                                                                         *)
-(*   Copyright (c) 2014-2016 LexiFi SAS. All rights reserved.              *)
+(*   Copyright (c) 2014-2025 LexiFi SAS. All rights reserved.              *)
 (*                                                                         *)
 (*   This source code is licensed under the MIT License                    *)
 (*   found in the LICENSE file at the root of this source tree             *)
@@ -338,7 +338,7 @@ let export ?(sep = ".") path u stock id loc =
   let value =
     String.concat "." (List.rev_map Ident.name path)
     ^ sep
-    ^ id.Ident.name
+    ^ (Ident.name id)
   in
   (* a .cmi file can contain locations from other files.
     For instance:
@@ -347,7 +347,7 @@ let export ?(sep = ".") path u stock id loc =
   *)
   if not loc.Location.loc_ghost
   && (u = unit loc.Location.loc_start.Lexing.pos_fname || u == _include)
-  && check_underscore id.Ident.name then
+  && check_underscore (Ident.name id) then
     hashtbl_add_to_list stock loc.Location.loc_start (!current_src, value)
 
 
